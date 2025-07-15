@@ -1,8 +1,11 @@
 import express from "express";
-import { createUser } from "./controllers/authController.js";
+import { createUser, login } from "./controllers/authController.js";
 import connectDB from "./lib/mongodb.js";
 import { inputValidator } from "./middleware.js";
-import { registerInputSchema } from "./modules/validations.js";
+import {
+  loginInputSchema,
+  registerInputSchema,
+} from "./modules/validations.js";
 
 const app = express();
 connectDB();
@@ -14,5 +17,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", inputValidator(registerInputSchema), createUser);
+app.post("/login", inputValidator(loginInputSchema), login);
 
 export default app;

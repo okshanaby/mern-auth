@@ -1,5 +1,5 @@
 import userModel from "../models/userModel.js";
-import { createToken, hashPassword } from "../modules/auth.js";
+import { comparePassword, createToken, hashPassword } from "../modules/auth.js";
 
 export const createUser = async (req, res) => {
   // get user input
@@ -47,4 +47,43 @@ export const createUser = async (req, res) => {
     });
     // do better error handling
   }
+};
+
+export const login = async (req, res) => {
+  // validate user input - middleware
+
+  // check if user exist
+  const { name, password, email } = req.body;
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    return res.json({
+      sucess: false,
+      message: "User not found, Please register",
+    });
+  }
+
+  // compare password
+  const isValidUser = await comparePassword(password, user.password);
+
+  if (!isValidUser) {
+    return res.json({
+      sucess: false,
+      message: "Invalid password",
+    });
+  }
+
+  // create token
+  const token = createToken(user);
+
+  // setting cookies
+  res.cookie(process.env.APP_NAME, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), //  7 day from now
+  });
+
+  // return user and token
+  res.json({ sucess: true, message: "Welcome back, " + user.name });
 };
