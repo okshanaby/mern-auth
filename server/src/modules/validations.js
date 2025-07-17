@@ -2,43 +2,67 @@ import { z } from "zod";
 
 export const registerInputSchema = z.object({
   name: z
-    .string({ required_error: "Name is required" })
-    .max(20, { message: "Name must not be above 20 characters" })
-    .min(4, { message: "name must not be below 4 characters" })
+    .string({ error: "Name is required" })
+    .max(20, { error: "Name must not be above 20 characters" })
+    .min(4, { error: "Name must not be below 4 characters" })
     .regex(/^[a-zA-Z0-9]+$/, {
-      message: "Name can only contain letters and numbers only",
+      error: "Name can only contain letters and numbers only",
     }),
   email: z.email("Please enter valid email"),
   password: z
-    .string({ required_error: "Password is required" })
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .max(20, { message: "Password must not exceed 20 characters" })
+    .string({ error: "Password is required" })
+    .min(8, { error: "Password must be at least 8 characters long" })
+    .max(20, { error: "Password must not exceed 20 characters" })
     .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter",
+      error: "Password must contain at least one lowercase letter",
     })
     .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter",
+      error: "Password must contain at least one uppercase letter",
     })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
+    .regex(/[0-9]/, { error: "Password must contain at least one number" })
     .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character",
+      error: "Password must contain at least one special character",
     }),
 });
 
 export const loginInputSchema = z.object({
   email: z.email("Please enter valid email"),
   password: z
-    .string({ required_error: "Password is required" })
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .max(20, { message: "Password must not exceed 20 characters" })
+    .string({ error: "Password is required" })
+    .min(8, { error: "Password must be at least 8 characters long" })
+    .max(20, { error: "Password must not exceed 20 characters" })
     .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter",
+      error: "Password must contain at least one lowercase letter",
     })
     .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter",
+      error: "Password must contain at least one uppercase letter",
     })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
+    .regex(/[0-9]/, { error: "Password must contain at least one number" })
     .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character",
+      error: "Password must contain at least one special character",
+    }),
+});
+
+export const verifyEmailInputSchema = z.object({
+  userId: z
+    .string({ error: "User ID is required" })
+    .max(50, { error: "User ID must not be above 50 characters" })
+    .min(6, { error: "User ID must not be below 6 characters" })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      error: "User ID can only contain letters and numbers only",
+    }),
+  otp: z
+    .string({ error: "OTP is required" })
+    .min(6, { error: "OTP must be at least 6 characters long" })
+    .max(6, { error: "OTP must not exceed 6 characters" }),
+});
+
+export const sendVerifyOTPInputSchema = z.object({
+  userId: z
+    .string({ error: "User ID is required" })
+    .max(50, { error: "User ID must not be above 50 characters" })
+    .min(6, { error: "User ID must not be below 6 characters" })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      error: "User ID can only contain letters and numbers only",
     }),
 });
