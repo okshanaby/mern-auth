@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import connectDB from "./lib/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 connectDB();
@@ -15,5 +16,7 @@ app.get("/", (req, res) => {
 
 // ROUTES - AUTH
 app.use("/api/auth", authRouter);
+
+app.use("/api/user", userRouter);
 
 export default app;
