@@ -66,3 +66,29 @@ export const sendVerifyOTPInputSchema = z.object({
       error: "User ID can only contain letters and numbers only",
     }),
 });
+
+export const resetPasswordInputSchema = z.object({
+  email: z.email("Please enter valid email"),
+});
+
+export const verifyResetPasswordInputSchema = z.object({
+  email: z.email("Please enter valid email"),
+  otp: z
+    .string({ error: "OTP is required" })
+    .min(6, { error: "OTP must be at least 6 characters long" })
+    .max(6, { error: "OTP must not exceed 6 characters" }),
+  newPassword: z
+    .string({ error: "Password is required" })
+    .min(8, { error: "Password must be at least 8 characters long" })
+    .max(20, { error: "Password must not exceed 20 characters" })
+    .regex(/[a-z]/, {
+      error: "Password must contain at least one lowercase letter",
+    })
+    .regex(/[A-Z]/, {
+      error: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[0-9]/, { error: "Password must contain at least one number" })
+    .regex(/[^a-zA-Z0-9]/, {
+      error: "Password must contain at least one special character",
+    }),
+});

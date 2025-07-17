@@ -3,6 +3,7 @@ import {
   comparePassword,
   createToken,
   hashPassword,
+  sendPasswordResetOTP,
   sendVerifyOTP,
 } from "../modules/auth.js";
 
@@ -92,7 +93,7 @@ export const login = async (req, res) => {
     if (!isValidUser) {
       return res.json({
         success: false,
-        message: "Invalid password",
+        message: "Invalid inputs",
       });
     }
 
@@ -216,6 +217,96 @@ export const verifyEmail = async (req, res) => {
     });
   } catch (error) {
     console.log("🚀 ~ verifyEmail ~ error:", error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+    // do better error handling
+  }
+};
+
+export const sendPasswordResetEmail = async (req, res) => {
+  // validation - done in middleware
+
+  // check user is available
+  const { email } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found! Please register an account",
+      });
+    }
+
+    // generate otp and send email
+    await sendPasswordResetOTP(user);
+
+    // return response
+    res.json({ success: true, message: "OTP sent to email " + user.email });
+  } catch (error) {
+    console.log("🚀 ~ sendPasswordResetEmail ~ error:", error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+    // do better error handling
+  }
+};
+
+export const verifyPasswordReset = async (req, res) => {
+  // validate inputs - done in middleware
+
+  // check user if exist
+  const { email, otp, newPassword } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found! Please register an account",
+      });
+    }
+
+    // check if the OTP isn't expired
+    if (user.resetOTPExpireAt < Date.now()) {
+      return res.json({
+        success: false,
+        message: "OTP Expired! Please request again",
+      });
+    }
+
+    // verify otp
+    if (user.resetOTP === "" || user.resetOTP !== otp) {
+      return res.json({
+        success: false,
+        message: "Invalid OTP! Please request again",
+      });
+    }
+
+    // hash new password
+    const newHashedPassword = await hashPassword(newPassword);
+
+    // update user data
+    user.password = newHashedPassword;
+    user.resetOTP = "";
+    user.resetOTPExpireAt = 0;
+
+    await user.save();
+
+    // return
+    res.json({
+      success: true,
+      message: "Password has been reset successfully! Please log in",
+    });
+  } catch (error) {
+    console.log("🚀 ~ verifyPasswordReset ~ error:", error);
 
     res.json({
       success: false,

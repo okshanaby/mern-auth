@@ -87,3 +87,28 @@ export const protectedRoute = async (req, res, next) => {
     // do better error handling
   }
 };
+
+export const sendPasswordResetOTP = async user => {
+  // create OTP expiration and save to DB
+  const OTP = generateOTP();
+  user.resetOTP = OTP;
+  user.resetOTPExpireAt = Date.now() + 15 * 60 * 1000; // 15 minutes
+
+  // save user data
+  await user.save();
+
+  // send otp email
+  const mailOptions = {
+    from: '"UZNEI" <info@okshanaby.me>',
+    to: user.email,
+    subject: "Password Reset",
+    html: `
+      <p>Here is your OTP:</p>
+      <h2 style="color: #000;"><strong>${OTP}</strong></h2>
+      <p>Please use this code to reset your account password <br />
+      <strong>Note:</strong> This OTP will expire in <strong>15 minutes</strong>.</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
