@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "sonner"; // or any toast lib
+import { toast } from "sonner";
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const API = axios.create({
