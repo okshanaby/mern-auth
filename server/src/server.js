@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
 import connectDB from "./lib/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
@@ -9,6 +10,12 @@ connectDB();
 
 app.use(express.json()); // middleware to let the client send a json
 app.use(cookieParser()); // middleware to read cookies for express
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // must match withCredentials on client
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("API WORKING");
