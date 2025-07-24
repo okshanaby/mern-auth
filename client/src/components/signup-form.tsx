@@ -66,7 +66,7 @@ export function SignupForm({
                   <Input
                     id="name"
                     type="text"
-                    placeholder="okshan"
+                    placeholder="eg. okshan"
                     required
                     onChange={e => setName(e.target.value)}
                     value={name}
