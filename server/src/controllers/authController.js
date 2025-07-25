@@ -142,7 +142,7 @@ export const sendEmailVerification = async (req, res) => {
   // validation - done in middleware
 
   // get user from db and check if its verified
-  const { userId } = req.body;
+  const userId = req.userId;
 
   try {
     const user = await userModel.findById(userId);
@@ -175,7 +175,8 @@ export const sendEmailVerification = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   // validation - done in middleware
 
-  const { userId, otp } = req.body;
+  const { otp } = req.body;
+  const userId = req.userId;
 
   try {
     // check if user exist

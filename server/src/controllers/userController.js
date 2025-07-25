@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 
 export const getUserByID = async (req, res) => {
-  const { userId } = req.body;
+  const  userId  = req.userId;
   try {
     const user = await userModel.findById(userId);
 

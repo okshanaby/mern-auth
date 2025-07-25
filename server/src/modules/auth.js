@@ -61,16 +61,18 @@ export const protectedRoute = async (req, res, next) => {
   const token = req.cookies[process.env.APP_NAME];
 
   if (!token) {
-    return res.json({ success: false, message: "Not authorized! Login again" });
+    return res
+      .status(403)
+      .json({ success: false, message: "Not authorized! Login again" });
   }
 
   try {
     const decodedToken = verifyToken(token);
 
     if (decodedToken.id) {
-      req.body.userId = decodedToken.id;
+      req.userId = decodedToken.id;
     } else {
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Not authorized! Login again",
       });
@@ -80,7 +82,7 @@ export const protectedRoute = async (req, res, next) => {
   } catch (error) {
     console.log("🚀 ~ protectedRoute ~ error:", error);
 
-    res.json({
+    res.status(403).json({
       success: false,
       message: error.message,
     });

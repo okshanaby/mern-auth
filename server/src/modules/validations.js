@@ -44,13 +44,13 @@ export const loginInputSchema = z.object({
 });
 
 export const verifyEmailInputSchema = z.object({
-  userId: z
-    .string({ error: "User ID is required" })
-    .max(50, { error: "User ID must not be above 50 characters" })
-    .min(6, { error: "User ID must not be below 6 characters" })
-    .regex(/^[a-zA-Z0-9]+$/, {
-      error: "User ID can only contain letters and numbers only",
-    }),
+  // userId: z
+  //   .string({ error: "User ID is required" })
+  //   .max(50, { error: "User ID must not be above 50 characters" })
+  //   .min(6, { error: "User ID must not be below 6 characters" })
+  //   .regex(/^[a-zA-Z0-9]+$/, {
+  //     error: "User ID can only contain letters and numbers only",
+  //   }),
   otp: z
     .string({ error: "OTP is required" })
     .min(6, { error: "OTP must be at least 6 characters long" })
