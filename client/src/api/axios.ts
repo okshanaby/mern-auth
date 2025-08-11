@@ -1,4 +1,4 @@
-// import { redirectToLogin } from "@/utils";
+import { redirectToLogin } from "@/utils";
 import axios from "axios";
 import { toast } from "sonner";
 const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -11,14 +11,12 @@ const API = axios.create({
 API.interceptors.response.use(
   response => response,
   error => {
-    console.log("🚀 ~ error:", error)
     if (error.status === 403) {
-      // redirectToLogin();
+      redirectToLogin();
     }
 
     if (error.response) {
       const data = error.response.data;
-      console.log("🚀 ~ data:", data)
 
       // 🔍 If it's a validation error array
       if (Array.isArray(data.errors)) {

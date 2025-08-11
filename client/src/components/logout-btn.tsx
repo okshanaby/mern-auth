@@ -26,7 +26,13 @@ const LogoutBtn = () => {
     }
   };
   return (
-    <Button type="submit" onClick={handleLogout} disabled={isLoading}>
+    <Button
+      type="submit"
+      onClick={handleLogout}
+      disabled={isLoading}
+      variant="outline"
+      className="text-red-100 font-semibold border-red-500 bg-red-300/70 hover:bg-red-300/70"
+    >
       {isLoading ? "Loading..." : "Log out"}
     </Button>
   );

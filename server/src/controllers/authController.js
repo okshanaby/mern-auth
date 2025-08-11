@@ -99,7 +99,6 @@ export const login = async (req, res) => {
 
     // create token
     const token = createToken(user);
-    console.log("🚀 ~ login ~ token:", token)
 
     // setting cookies
     res.cookie(process.env.APP_NAME, token, {

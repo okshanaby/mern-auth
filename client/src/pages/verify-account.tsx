@@ -66,7 +66,7 @@ function VerifyAccountPage() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="bg-gray-900 text-white flex items-center justify-center h-screen">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -97,14 +97,24 @@ function VerifyAccountPage() {
                 </FormControl>
                 <FormDescription>
                   Please enter the OTP sent to your email. OR{" "}
-                  <Link to="/login" className="underline underline-offset-4 font-semibold">Login</Link> to request again.
+                  <Link
+                    to="/login"
+                    className="underline underline-offset-4 font-semibold"
+                  >
+                    Login
+                  </Link>{" "}
+                  to request again.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit" disabled={isLoading}>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="bg-indigo-500 hover:bg-indigo-600 font-semibold transition"
+          >
             {isLoading ? "Loading..." : "Submit"}
           </Button>
         </form>
