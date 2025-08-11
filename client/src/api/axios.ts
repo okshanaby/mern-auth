@@ -13,7 +13,7 @@ API.interceptors.response.use(
   error => {
     console.log("🚀 ~ error:", error)
     if (error.status === 403) {
-      // redirectToLogin();
+      redirectToLogin();
     }
 
     if (error.response) {
