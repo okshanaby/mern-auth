@@ -57,15 +57,15 @@ export const verifyEmailInputSchema = z.object({
     .max(6, { error: "OTP must not exceed 6 characters" }),
 });
 
-export const sendVerifyOTPInputSchema = z.object({
-  userId: z
-    .string({ error: "User ID is required" })
-    .max(50, { error: "User ID must not be above 50 characters" })
-    .min(6, { error: "User ID must not be below 6 characters" })
-    .regex(/^[a-zA-Z0-9]+$/, {
-      error: "User ID can only contain letters and numbers only",
-    }),
-});
+// export const sendVerifyOTPInputSchema = z.object({
+//   userId: z
+//     .string({ error: "User ID is required" })
+//     .max(50, { error: "User ID must not be above 50 characters" })
+//     .min(6, { error: "User ID must not be below 6 characters" })
+//     .regex(/^[a-zA-Z0-9]+$/, {
+//       error: "User ID can only contain letters and numbers only",
+//     }),
+// });
 
 export const resetPasswordInputSchema = z.object({
   email: z.email("Please enter valid email"),

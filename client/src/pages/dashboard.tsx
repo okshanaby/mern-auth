@@ -3,9 +3,11 @@ import LogoutBtn from "@/components/logout-btn";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
+  const [verificationLoading, setVerificationLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
 
@@ -29,6 +31,29 @@ const DashboardPage = () => {
         <div className="animate-spin h-8 w-8 border-4 border-indigo-500 border-t-transparent rounded-full" />
       </div>
     );
+  }
+
+  async function handleVerification() {
+    setVerificationLoading(true);
+
+    try {
+      const res = await API.post("/auth/send-otp");
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/verify-account");
+      } else {
+        toast.error(res.data.message);
+      }
+
+      setVerificationLoading(false);
+    } catch (error: any) {
+      console.log("🚀 ~ onSubmit ~ error:", error);
+
+      toast.error(error.message);
+
+      setVerificationLoading(false);
+    }
   }
 
   return (
@@ -72,10 +97,11 @@ const DashboardPage = () => {
         <div className="flex flex-wrap gap-4">
           {!user?.isAccountVerified && (
             <Button
-              onClick={() => navigate("/verify-account")}
+              onClick={handleVerification}
               className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
+              disabled={verificationLoading}
             >
-              Verify Account
+              {verificationLoading ? "Loading" : " Verify Account"}
             </Button>
           )}
           <LogoutBtn />

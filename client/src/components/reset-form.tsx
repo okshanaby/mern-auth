@@ -142,8 +142,7 @@ export function ResetForm({
 
                   <Button
                     type="submit"
-                                className="bg-indigo-500 hover:bg-indigo-600 font-semibold transition"
-
+                    className="bg-indigo-500 hover:bg-indigo-600 font-semibold transition"
                     onClick={handleReset}
                     disabled={isLoading}
                   >
@@ -176,7 +175,7 @@ export function ResetForm({
 
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="bg-indigo-500 hover:bg-indigo-600 font-semibold transition"
                     onClick={handleSendOTP}
                     disabled={isLoading}
                   >

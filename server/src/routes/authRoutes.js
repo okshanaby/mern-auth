@@ -14,7 +14,7 @@ import {
   loginInputSchema,
   registerInputSchema,
   resetPasswordInputSchema,
-  sendVerifyOTPInputSchema,
+  // sendVerifyOTPInputSchema,
   verifyEmailInputSchema,
   verifyResetPasswordInputSchema,
 } from "../modules/validations.js";
@@ -28,14 +28,14 @@ authRouter.get("/logout", logout);
 authRouter.post(
   "/send-otp",
   protectedRoute,
-  inputValidator(sendVerifyOTPInputSchema),
+  // inputValidator(sendVerifyOTPInputSchema),
   sendEmailVerification
 );
 
 authRouter.post(
   "/verify-otp",
   protectedRoute,
-  inputValidator(verifyEmailInputSchema),
+  inputValidator(verifyEmailInputSchema), 
   verifyEmail
 );
 
@@ -50,5 +50,6 @@ authRouter.post(
   inputValidator(verifyResetPasswordInputSchema),
   verifyPasswordReset
 );
+
 
 export default authRouter;
