@@ -12,12 +12,13 @@ app.use(express.json()); // middleware to let the client send a json
 app.use(cookieParser()); // middleware to read cookies for express
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true, // must match withCredentials on client
   })
 );
 
 app.get("/", (req, res) => {
+  console.log("🚀 ~ req:", req);
   res.send("API WORKING");
 });
 

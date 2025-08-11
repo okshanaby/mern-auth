@@ -79,6 +79,7 @@ export const login = async (req, res) => {
 
   try {
     const user = await userModel.findOne({ email });
+    console.log("🚀 ~ login ~ user:", user)
 
     if (!user) {
       return res.json({
