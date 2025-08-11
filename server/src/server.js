@@ -18,7 +18,6 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  console.log("🚀 ~ req:", req);
   res.send("API WORKING");
 });
 

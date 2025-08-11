@@ -79,7 +79,6 @@ export const login = async (req, res) => {
 
   try {
     const user = await userModel.findOne({ email });
-    console.log("🚀 ~ login ~ user:", user)
 
     if (!user) {
       return res.json({
@@ -100,6 +99,7 @@ export const login = async (req, res) => {
 
     // create token
     const token = createToken(user);
+    console.log("🚀 ~ login ~ token:", token)
 
     // setting cookies
     res.cookie(process.env.APP_NAME, token, {
